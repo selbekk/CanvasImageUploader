@@ -11,7 +11,7 @@
  * @see https://github.com/ajgarn/CanvasImageUploader
  */
 
-var exif = require('exif-js');
+var EXIF = require('exif-js');
 module.exports = function (options) {
     options = options || {};
     if (typeof options.maxSize === 'undefined') options.maxSize = 1500;

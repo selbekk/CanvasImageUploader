@@ -10,7 +10,7 @@
  * @author ajgarn
  * @see https://github.com/ajgarn/CanvasImageUploader
  */
-var CanvasImageUploader = function (options) {
+module.exports = function (options) {
     options = options || {};
     if (typeof options.maxSize === 'undefined') options.maxSize = 1500;
     if (typeof options.jpegQuality === 'undefined') options.jpegQuality = 0.7;

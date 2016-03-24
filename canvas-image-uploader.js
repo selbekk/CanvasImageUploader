@@ -95,26 +95,25 @@ var CanvasImageUploader = function (options) {
         return size;
     }
 
-    function setDimensions($canvas, size, orientation) {
+    function setDimensions(canvas, size, orientation) {
         if (isRotated(orientation)) {
-            $canvas.attr('height', size.width);
-            $canvas.attr('width', size.height);
+            canvas.height = size.width;
+            canvas.width = size.height;
         } else {
-            $canvas.attr('width', size.width);
-            $canvas.attr('height', size.height);
+            canvas.height = size.height;
+            canvas.width = size.width;
         }
     }
 
-    function drawOnCanvas(image, $canvas, orientation, maxSize) {
-        var canvas = $canvas[0];
+    function drawOnCanvas(image, canvas, orientation, maxSize) {
         var ctx = canvas.getContext('2d');
 
         var exifOrientation = ExifOrientations[orientation - 1];
         var size = calculateSize(image, maxSize);
-        setDimensions($canvas, size, orientation);
+        setDimensions(canvas, size, orientation);
 
         // Clear canvas
-        ctx.clearRect(0, 0, $canvas.width(), $canvas.height());
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         // Flip vertically or horizontally
         if ('flip-x' == exifOrientation.op) flipContext(ctx, canvas, true, false);
@@ -124,12 +123,12 @@ var CanvasImageUploader = function (options) {
         if (exifOrientation.degrees) {
             rotateContext(ctx, {
                 degrees: exifOrientation.degrees,
-                x: $canvas.width() / 2,
-                y: $canvas.height() / 2
+                x: canvas.width / 2,
+                y: canvas.height / 2
             });
 
             if (isRotated(orientation)) {
-                var diff = $canvas.width() - $canvas.height();
+                var diff = canvas.width - canvas.height;
                 ctx.translate(diff / 2, -diff / 2);
             }
         }
@@ -138,9 +137,9 @@ var CanvasImageUploader = function (options) {
             0, 0, size.width, size.height);                     // Destination rectangle
     }
 
-    function readImageToCanvasOnLoad(image, $canvas, callback) {
+    function readImageToCanvasOnLoad(image, canvas, callback) {
         getExifOrientation(image, function (orientation) {
-            drawOnCanvas(image, $canvas, orientation, options.maxSize);
+            drawOnCanvas(image, canvas, orientation, options.maxSize);
             if (callback)
                 callback();
             else
@@ -184,13 +183,13 @@ var CanvasImageUploader = function (options) {
          * Draw an image (<img>) or contents of a canvas to another canvas. The destination
          * canvas is resized properly.
          * @param source The image or source canvas to draw on a new canvas.
-         * @param $destination The destination canvas to draw onto.
+         * @param destination The destination canvas to draw onto.
          * @param maxSize Maximum width or height of the destination canvas.
          */
-        copyToCanvas: function (source, $destination, maxSize) {
+        copyToCanvas: function (source, destination, maxSize) {
             var size = calculateSize(source, maxSize);
-            setDimensions($destination, size, 1);
-            var destCtx = $destination[0].getContext('2d');
+            setDimensions(destination, size, 1);
+            var destCtx = destination.getContext('2d');
             destCtx.drawImage(source, 0, 0, source.width, source.height,
                 0, 0, size.width, size.height);
         },
@@ -198,17 +197,17 @@ var CanvasImageUploader = function (options) {
         /**
          * Draw an image from a file on a canvas.
          * @param file The uploaded file.
-         * @param $canvas The canvas (jQuery) object to draw on.
+         * @param canvas The canvas (jQuery) object to draw on.
          * @param callback Function that is called when the operation has finished.
          */
-        readImageToCanvas: function(file, $canvas, callback) {
+        readImageToCanvas: function(file, canvas, callback) {
             this.newImage();
             if (!file)
                 return;
 
             var reader = new FileReader();
             reader.onload = function (fileReaderEvent) {
-                image.onload = function () { readImageToCanvasOnLoad(this, $canvas, callback); };
+                image.onload = function () { readImageToCanvasOnLoad(this, canvas, callback); };
                 image.src = fileReaderEvent.target.result;      // The URL from FileReader
 
             };

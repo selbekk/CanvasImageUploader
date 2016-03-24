@@ -1,0 +1,23 @@
+{
+  "name": "CanvasImageUploader",
+  "version": "1.0.0",
+  "description": "Resize and rotate images by EXIF orientation on the client side during upload. This uses the HTML Canvas element and HTML5 FileReader.",
+  "main": "canvas-image-uploader.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/selbekk/CanvasImageUploader.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/selbekk/CanvasImageUploader/issues"
+  },
+  "homepage": "https://github.com/selbekk/CanvasImageUploader#readme",
+  "dependencies": {
+    "exif-js": "^2.1.1"
+  }
+}
